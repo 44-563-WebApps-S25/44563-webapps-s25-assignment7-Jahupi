@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>setTimeout use</title>
+  <title>Reflex Game</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -10,28 +10,47 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
+  <header>Jacen Piatt Reflexes</header>
+  <h2>Reflex Timer Game</h2>
 
-  <h2>Timeout - Red in 3 seconds</h2>
+  <button id="go-btn" type="button" class="btn btn-success">Go</button>
+  <button id="halt-btn" type="button" class="btn btn-danger">Halt</button>
 
-  <button type="button"
-  class="btn btn-primary"
-  onclick="buttonPress2()">
-  Click me change the color.</button>
-  
-  <p id="target">I will become red </p>
-  
-  <script> 
-  function buttonPress1() {
-    setTimeout(function(){
-      document.getElementById('target').style.color = "red"
-    }, 3000)
-  }
+  <p id="counter">Count: </p>
+  <p id="target">Your time: </p>
 
-  function buttonPress2() {
-    setTimeout(()=>{
-      document.getElementById('target').style.color = "red"
-    }, 3000)
-  }
+  <script>
+    let haltTime;
+    let countdown;
+    
+    function recordTime() {
+        haltTime = Date.now();
+    }
+
+    document.getElementById("halt-btn").onclick = recordTime;
+
+    function beginTime() {
+        haltTime = undefined;
+        document.getElementById("target").innerText = "Your time: ";
+        let counter = document.getElementById("counter");
+
+        for (let i = 0; i <= 5; i++) {
+            setTimeout(() => {
+                counter.innerText = `Count: ${5 - i}`;
+            }, i * 1000);
+        }
+
+        setTimeout(() => {
+            if (!haltTime) {
+                document.getElementById("target").innerText = "Not soon enough!";
+            } else {
+                let reactionTime = Date.now() - haltTime;
+                document.getElementById("target").innerText = `Time was ${reactionTime} ms`;
+            }
+        }, 5000);
+    }
+
+    document.getElementById("go-btn").onclick = beginTime;
   </script>
 
 </body>
