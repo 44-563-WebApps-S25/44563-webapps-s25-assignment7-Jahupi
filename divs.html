@@ -1,50 +1,89 @@
 <!DOCTYPE html>
-<html> <head> <style>
-    .flex-container {
-      display: flex;  flex-direction:row;
-      background-color: red;
-  }
+<html>
+<head>
+	<title>Divs</title>
+		<style>
+			.flex-container {
+				display: flex;
+				flex-direction: row;
+				background-color: red;
+			}
 
-.flex-container > div {  /*div children of the flex container*/
-  background-color: #f1f1f1; 
-  margin: 10px;  padding: 20px;  font-size: 30px;
-}
+			.flex-container > div {
+				background-color: #f1f1f1;
+				margin: 10px;
+				padding: 20px;
+				font-size: 30px;
+			}
 
-/* Responsive layout */
-@media (max-width: 600px) { 
-	 .flex-container{
-		 flex-direction:column;
-		 background-color: green;
-	  }
-	}
-</style></head>
-
-
+			/* Responsive layout */
+			@media (max-width: 600px) {
+				.flex-container {
+					flex-direction: column;
+					background-color: green;
+				}
+			}
+	</style>
+</head>
 
 <body>
-		<div class="flex-container" id="target">
-		  <div>row item 1</div>   
-		  <div>row item 2</div>  
-		  <div>row item 3</div>  
+	<header>Jacen Piatt builds a list with divs</header>
+	<div class="flex-container" id="target">
+		<div class="divlist">
+			row item 1
+			<button onclick="removeItem(this)">Remove</button>
 		</div>
-	
-	<p> Press the button to create an new element of type div and then add it to the container.
-		</p>
-		<button onclick="makeNewDiv()">Add one</button>
-	
-	
-</body>
-<script>
-	function makeNewDiv(){
-		/* make the div and its text */
-		let element = document.createElement("div")
-		element.innerHTML = "an item after 3"
-		element.style.color = "orange"
+		<div class="divlist">
+			row item 2
+			<button onclick="removeItem(this)">Remove</button>
+		</div>
+		<div class="divlist">
+			row item 3
+			<button onclick="removeItem(this)">Remove</button>
+		</div>
+	</div>
 
-		/* add it to the container */
-		let container = document.getElementById('target')
-		container.appendChild(element)
-		
-	}
-</script>
-</html>	
+	<input type="text" id="newItemText" placeholder="Enter new item text">
+	<button onclick="addEnd()">Add end</button>
+	<button onclick="addFront()">Add front</button>
+
+	<script>
+		function addEnd() {
+			let input = document.getElementById("newItemText");
+			let newText = input.value.trim();
+
+			if (newText) {
+				let element = document.createElement("div");
+				element.className = "divlist";
+				element.innerHTML = `${newText} <button onclick="removeItem(this)">Remove</button>`;
+				element.style.color = "orange";
+				let container = document.getElementById("target");
+				container.appendChild(element);
+
+				input.value = "";
+			}
+		}
+
+		function addFront() {
+			let input = document.getElementById("newItemText");
+			let newText = input.value.trim();
+
+			if (newText) {
+				let element = document.createElement("div");
+				element.className = "divlist";
+				element.innerHTML = `${newText} <button onclick="removeItem(this)">Remove</button>`;
+				element.style.color = "orange";
+				let container = document.getElementById("target");
+				container.insertBefore(element, container.firstChild);
+
+				input.value = "";
+			}
+		}
+
+		function removeItem(button) {
+			let item = button.parentElement;
+			item.remove();
+		}
+	</script>
+</body>
+</html>
